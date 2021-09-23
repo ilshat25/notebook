@@ -6,11 +6,12 @@ from allauth.socialaccount import providers
 
 from . import views
 
-
+# URL шаблоны, связывают URL с отображеними
 urlpatterns = [
     path('login/', views.login_view, name='login'),
 ]
 
+# Добавляет URL провайдеров
 provider_urlpatterns = []
 for provider in providers.registry.get_list():
     try:

@@ -1,12 +1,12 @@
 from .base import *
 
+# Режим отладки
 DEBUG = True
 
+# Допустимые хосты
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+# Настройки БД (postgresql)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -18,12 +18,10 @@ DATABASES = {
     }
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+# Расположение статичных файлов
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static/'
 
-# Media files
+# Расположение меди файлов
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'

@@ -6,13 +6,18 @@ from django.contrib.postgres.search import SearchVector
 from .forms import EntryForm
 from .models import EntryModel
 
-# Create your views here.
 
+# Отображение главной страницы со всеми записями
+# Получает все записи текущего пользователя, и после
+# передает их в шаблон для отображения
 @login_required
 def index_view(request):
     entries = EntryModel.objects.filter(owner=request.user)
     return render(request, 'entries/index.html', {'entries': entries})
 
+# Отображение создания записи
+# В зависимости от метода запроса отправляет пустую форму
+# для заполнения, либо сохраняет данные формы в БД
 @login_required
 def create_view(request):
     if request.method == 'POST':
@@ -26,6 +31,10 @@ def create_view(request):
         entry_form = EntryForm()
     return render(request, 'entries/create.html', {'entry_form': entry_form})
 
+# Отображение изменения записи
+# В зависимости от метода запроса отправляет форму
+# с заполненными старыми данными, либо сохраняет новые
+# данные в БД
 @login_required
 def change_view(request, pk):
     entry = get_object_or_404(EntryModel, pk=pk)
@@ -39,12 +48,16 @@ def change_view(request, pk):
     return render(request, 'entries/create.html', {'entry_form': entry_form,
                                                    'entry': entry})
 
+# Удаление записи по индификатору
 @login_required
 def delete_view(request, pk):
     entry = get_object_or_404(EntryModel, pk=pk)
     entry.delete()
     return redirect('index')
 
+# Поиск записей
+# Группирует столбцы указанные в SearchVector
+# и осуществляе поиск по словам из query
 @login_required
 @require_GET
 def search_view(request):
@@ -52,7 +65,7 @@ def search_view(request):
     if query:
         entries = EntryModel.objects.annotate(
                         search=SearchVector('name', 'phone_number', 'address', 'comment')
-                ).filter(search=query).all()
+                ).filter(search=query, owner=request.user).all()
     else:
         return redirect('index')
     return render(request, 'entries/index.html', {'entries': entries})

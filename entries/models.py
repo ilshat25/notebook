@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-# Create your models here.
+# Модель записи (представляет таблицу в БД)
 class EntryModel(models.Model):
     owner = models.ForeignKey(get_user_model(),
                               related_name='entries',
