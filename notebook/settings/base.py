@@ -115,6 +115,7 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static/'
 
 # Media files
 MEDIA_URL = '/media/'
