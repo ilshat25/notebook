@@ -17,7 +17,7 @@ class EntryModel(models.Model):
     address = models.CharField(max_length=100, blank=True, null=True)
     is_organisation = models.BooleanField(default=False)
     comment = models.TextField(blank=True, null=True)
-    image = models.ImageField(blank=True, upload_to="entries/%Y/%m/%d/")
+    image = models.ImageField(blank=True, null=True, upload_to="entries/%Y/%m/%d/")
 
     def __str__(self):
         return f'{self.name}: {self.phone_number}'
