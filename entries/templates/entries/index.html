@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}index{% endblock %}
+
+{% block content %}
+<h1>Записная книжка</h1>
+        <section id="section-form">
+            <form action="{% url 'search' %}" method="GET">
+                <input type="text" name='query'>
+                <button type="submit">Поиск</button>
+            </form>
+        </section>        
+
+        <section>
+            <ul>
+                <li><a href="{% url 'login' %}" class="btn">Сменить аккаунт</a></li>
+                <li><a href="{% url 'create' %}" class="btn">Создать запись</a></li>
+            </ul>
+        </section>
+        <section>
+            {% if entries %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Имя</th>
+                            <th>Номер телефона</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in entries %}
+                            <tr>
+                                <td><img src="{% if entry.image %}{{ entry.image.url }}{% else %}{% static 'entries/default_image.png' %}{% endif %}" alt="" class="img-icon"></td>
+                                <td><a href="{% url 'edit' entry.pk %}" class='btn'>{{ entry.name }}</a>{% if entry.is_organisation %}<br><i>Организация</i>{% endif %}</td>
+                                <td>{{ entry.phone_number }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h2>Нет записей...</h2>
+            {% endif %}
+        </section>
+{% endblock %}

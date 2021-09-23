@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if entry %}change{% else %}create{% endif %}{% endblock %}
+
+{% block content %}
+    <section>
+        <ul>
+            <li><a href="{% url 'index' %}" class='btn'>Вернуться к списку</a></li>
+            {% if entry %}<li><a href="{% url 'delete' entry.pk %}" class='btn'>Удалить</a></li>{% endif %}
+        </ul>
+    </section> 
+    <section id='section-image'>
+        <img src="{% if entry.image %}{{ entry.image.url }}{% else %}{% static 'entries/default_image.png' %}{% endif %}" alt="">
+    </section>
+
+    <section id='change-form'>
+        <form action="{% if entry %}{% url 'edit' entry.pk %}{% else %}{% url 'create' %}{% endif %}" method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="id_name">Имя:</label> 
+            <input type="text" name="name" value="{% if entry %}{{ entry.name }}{% endif %}" maxlength="50" required="" id="id_name">
+            <label for="id_phone_number">Номер телефона:</label>
+            <input type="tel" name="phone_number" value="{% if entry %}{{ entry.phone_number }}{% endif %}" maxlength="128" required="" id="id_phone_number">
+            <label for="id_address">Адрес:</label> 
+            <input type="text" name="address" value="{% if entry and entry.address %}{{ entry.address }}{% endif %}" maxlength="100" id="id_address">
+            <p><label for="id_is_organisation">Организация:</label> 
+            <input type="checkbox" name="is_organisation" id="id_is_organisation" {% if entry and entry.is_organisation %}checked{% endif %}></p>
+            <label for="id_comment">Коментарий:</label> 
+            <textarea name="comment" cols="40" rows="5" id="id_comment">{% if entry %}{{ entry.comment }}{% endif %}</textarea>
+            <p><label for="id_image">Избражение:</label>
+            <input type="file" name="image" accept="image/*" id="id_image"></p>
+            <button type="submit">{% if entry %}Изменить{% else %}Создать{% endif %}</button>
+        </form>
+    </section>
+{% endblock %}
