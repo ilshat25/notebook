@@ -3,7 +3,7 @@ import dj_database_url
 from .base import *
 
 # Режим отладки отключен
-DEBUG = False
+DEBUG = True
 
 # Допустимые хосты
 ALLOWED_HOSTS = ['ilshat-notebook.herokuapp.com']
