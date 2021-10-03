@@ -17,6 +17,13 @@
                 <li><a href="{% url 'login' %}" class="btn">Сменить аккаунт</a></li>
                 <li><a href="{% url 'create' %}" class="btn">Создать запись</a></li>
             </ul>
+            <br><br>
+            <ul>
+                <li><a href="{% url 'index' %}?status=EP" class="btn" style="color:crimson">Сотрудники</a></li>
+                <li><a href="{% url 'index' %}?status=CL" class="btn" style="color:teal">Клиенты</a></li>
+                <li><a href="{% url 'index' %}?status=PT" class="btn" style="color:green">Партнеры</a></li>
+                <li><a href="{% url 'index' %}" class="btn">Все</a></li>
+            </ul>
         </section>
         <section>
             {% if entries %}
@@ -32,7 +39,11 @@
                         {% for entry in entries %}
                             <tr>
                                 <td><img src="{% if entry.image %}{{ entry.image.url }}{% else %}{% static 'entries/default_image.png' %}{% endif %}" alt="" class="img-icon"></td>
-                                <td><a href="{% url 'edit' entry.pk %}" class='btn'>{{ entry.name }}</a>{% if entry.is_organisation %}<br><i>Организация</i>{% endif %}</td>
+                                <td><a href="{% url 'edit' entry.pk %}" class='btn'>{{ entry.name }}</a>
+                                    {% if entry.status == "EP" %}<br><i style="color:crimson">Сотрудник</i>
+                                    {% elif entry.status == "CL" %}<br><i style="color:teal">Клиент</i>
+                                    {% elif entry.status == "PT" %}<br><i style="color:green">Бизнес-партнер</i>{% endif %}
+                                </td>
                                 <td>{{ entry.phone_number }}</td>
                             </tr>
                         {% endfor %}

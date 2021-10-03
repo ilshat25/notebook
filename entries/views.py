@@ -12,7 +12,10 @@ from .models import EntryModel
 # передает их в шаблон для отображения
 @login_required
 def index_view(request):
+    status = request.GET.get('status', '')
     entries = EntryModel.objects.filter(owner=request.user)
+    if status:
+        entries = entries.filter(status=status)
     return render(request, 'entries/index.html', {'entries': entries})
 
 # Отображение создания записи

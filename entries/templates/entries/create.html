@@ -23,8 +23,15 @@
             <input type="tel" name="phone_number" value="{% if entry %}{{ entry.phone_number }}{% endif %}" maxlength="128" required="" id="id_phone_number">
             <label for="id_address">Адрес:</label> 
             <input type="text" name="address" value="{% if entry and entry.address %}{{ entry.address }}{% endif %}" maxlength="100" id="id_address">
-            <p><label for="id_is_organisation">Организация:</label> 
-            <input type="checkbox" name="is_organisation" id="id_is_organisation" {% if entry and entry.is_organisation %}checked{% endif %}></p>
+            <p>
+                <label for="id_status">Статус:</label>
+                <select name="status" id="id_status">
+                    <option value="RD" {% if entry.status == "RD" %}selected{% endif %}>По умолчанию</option>
+                    <option value="EP" {% if entry.status == "EP" %}selected{% endif %}>Сотрудник</option>
+                    <option value="CL" {% if entry.status == "CL" %}selected{% endif %}>Клиент</option>
+                    <option value="PT" {% if entry.status == "PT" %}selected{% endif %}>Бизнес-партнер</option>
+                </select>
+            </p>
             <label for="id_comment">Коментарий:</label> 
             <textarea name="comment" cols="40" rows="5" id="id_comment">{% if entry %}{{ entry.comment }}{% endif %}</textarea>
             <p><label for="id_image">Избражение:</label>
